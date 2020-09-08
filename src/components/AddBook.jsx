@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_AUTHORS_QUERY } from '../queries/queries'
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_AUTHORS_QUERY, ADD_BOOK_MUTATION } from '../queries/queries'
 
 
 function AddBook(){
@@ -8,14 +8,15 @@ function AddBook(){
     const [name, setName] = useState("")
     const [genre, setGenre] = useState("")
     const [authorId, setAuthorId] = useState("")
-    const { loading, data } = useQuery(GET_AUTHORS_QUERY)
+    const authorsData = useQuery(GET_AUTHORS_QUERY)
+    const [addBookMutation, addBookData ] = useMutation(ADD_BOOK_MUTATION)
     // console.log(data)
 
     const displayAuthors = () => {
-        if(loading){
+        if(authorsData.loading){
             return(<option>Loading Authors...</option>)
         } else {
-            return data.authors.map(author => {
+            return authorsData.data.authors.map(author => {
                 return(
                     <option key={author.id} value={author.id}>{author.name}</option>
                 )
@@ -23,8 +24,12 @@ function AddBook(){
         }
     }
 
+    function submitForm(e){
+        e.preventDefault()
+        console.log(name, genre, authorId)
+    }
     return (
-        <form id="add-book">
+        <form id="add-book" onSubmit={submitForm}>
             <div className="field">
                 <label>Book Name:</label>
                 <input value={name} onChange={(e)=> setName(e.target.value)} type="text"/>
@@ -40,7 +45,7 @@ function AddBook(){
                     {displayAuthors()}
                 </select>
             </div>
-            <button>+</button>
+            <button type="submit">+</button>
         </form>
     );
 }
