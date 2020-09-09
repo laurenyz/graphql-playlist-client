@@ -1,6 +1,7 @@
 import React from 'react';
-import { useQuery,  } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { GET_BOOKS_QUERY } from '../queries/queries'
+import BookDetails from './BookDetails';
 //place query directly after (no space) between ``
 
 function BookList() {
@@ -25,6 +26,7 @@ function BookList() {
             <ul id="book-list">
                 {displayBooks()}
             </ul>
+            <BookDetails />
         </div>
     );
  }
