@@ -9,7 +9,7 @@ function AddBook(){
     const [genre, setGenre] = useState("")
     const [authorId, setAuthorId] = useState("")
     const authorsData = useQuery(GET_AUTHORS_QUERY)
-    const [addBookMutation, addBookData ] = useMutation(ADD_BOOK_MUTATION)
+    const [addBookMutation] = useMutation(ADD_BOOK_MUTATION) //can also pass in options
     // console.log(data)
 
     const displayAuthors = () => {
@@ -24,9 +24,9 @@ function AddBook(){
         }
     }
 
-    function submitForm(e){
+    const submitForm=(e)=>{
         e.preventDefault()
-        console.log(name, genre, authorId)
+        addBookMutation({ variables: { name, genre, authorId } })
     }
     return (
         <form id="add-book" onSubmit={submitForm}>
