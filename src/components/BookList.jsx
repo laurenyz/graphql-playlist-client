@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_BOOKS_QUERY } from '../queries/queries'
 import BookDetails from './BookDetails';
-//place query directly after (no space) between ``
 
 function BookList() {
     // const { loading, error, data } = useQuery(GET_BOOKS_QUERY)
+    const [selected, setSelected] = useState(null)
     const { loading, data } = useQuery(GET_BOOKS_QUERY)
-    // console.log(loading, data)
 
     const displayBooks = () => {
         if(loading){
@@ -15,7 +14,7 @@ function BookList() {
         } else {
             return data.books.map(book => {
                 return(
-                    <li key={book.id}>{book.name}</li>
+                    <li key={book.id} onClick={(e)=>setSelected(book.id)}>{book.name}</li>
                 )
             })
         }
@@ -26,7 +25,7 @@ function BookList() {
             <ul id="book-list">
                 {displayBooks()}
             </ul>
-            <BookDetails />
+            <BookDetails selected={selected}/>
         </div>
     );
  }

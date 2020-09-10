@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+//place query directly after (no space) between ``
 const GET_BOOKS_QUERY=gql` 
     {
         books{
